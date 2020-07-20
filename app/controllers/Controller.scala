@@ -165,10 +165,8 @@ abstract class LoggedOutController(mcc: MessagesControllerComponents)
     val carrier = super.hc
     request match {
       case x: MaybeUserRequest[_] =>
-        implicit val req: MaybeUserRequest[_] = x
         enrichHeaders(carrier, x.developerSession)
       case x: UserRequest[_] =>
-        implicit val req: UserRequest[_] = x
         enrichHeaders(carrier, x.developerSession)
       case _ => carrier
     }

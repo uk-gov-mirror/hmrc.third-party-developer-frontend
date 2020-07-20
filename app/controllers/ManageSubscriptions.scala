@@ -105,7 +105,7 @@ class ManageSubscriptions @Inject() (val sessionService: SessionService,
   def saveSubscriptionFields(applicationId: String,
                              apiContext: String,
                              apiVersion: String,
-                             mode: SaveSubsFieldsPageMode) : Action[AnyContent] = 
+                             mode: SaveSubsFieldsPageMode) : Action[AnyContent] =
       subFieldsDefinitionsExistActionByApi(applicationId, apiContext, apiVersion) { definitionsRequest: ApplicationWithSubscriptionFields[AnyContent] =>
  
     implicit val rq: Request[AnyContent] = definitionsRequest.applicationRequest.request

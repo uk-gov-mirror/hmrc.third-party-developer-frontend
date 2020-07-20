@@ -18,6 +18,7 @@ package config
 
 import akka.stream.Materializer
 import javax.inject.Inject
+import org.joda.time.DateTime
 import play.api.mvc._
 import uk.gov.hmrc.play.bootstrap.filters.frontend.{SessionTimeoutFilter, SessionTimeoutFilterConfig}
 
@@ -34,10 +35,24 @@ class SessionTimeoutFilterWithWhitelist @Inject()(config: SessionTimeoutFilterCo
 
   override def apply(f: (RequestHeader) => Future[Result])(rh: RequestHeader): Future[Result] = {
     println("in SessionTimeoutFilterWithWhitelist.apply - Checking whitelist")
-    if (whitelistedCalls.contains(WhitelistedCall(rh.path, rh.method))) f(rh)
+    if (whitelistedCalls.contains(WhitelistedCall(rh.path, rh.method))) {
+      println(s"in SessionTimeoutFilterWithWhitelist if whitelisted")
+      println(s"whitelistedCalls.contains(WhitelistedCall(rh.path, rh.method)) is: ${whitelistedCalls.contains(WhitelistedCall(rh.path, rh.method))}")
+      println(s"rh.path is: ${rh.path}")
+      println(s"rh.method is: ${rh.method}")
+      println(s"f(rh) is: ${f}")
+
+      f(rh)
+    }
     else {
-      println("in SessionTimeoutFilterWithWhitelist.apply - Delegate")
-      println(s"CLOCK : ${super.clock().getMillis.toString}")
+      println("in SessionTimeoutFilterWithWhitelist.apply - if not whitelisted")
+      println(s"rh.path is: ${rh.path}")
+      println(s"rh.method is: ${rh.method}")
+      println(s"f(rh) is: ${f}")
+      println(s"lastRequestTimestamp: ${rh.session.get(uk.gov.hmrc.http.SessionKeys.lastRequestTimestamp)}")
+      println(s"CLOCK in super: ${super.clock().getMillis.toString}")
+      println(s"CLOCK in this: ${this.clock().getMillis.toString}")
+
       super.apply(f)(rh)
     }
   }
