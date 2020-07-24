@@ -19,9 +19,8 @@ package controllers
 import config.{ApplicationConfig, ErrorHandler}
 import javax.inject.Inject
 import model.APICategory
-import play.api.i18n.MessagesApi
 import play.api.libs.crypto.CookieSigner
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import service.{EmailPreferencesService, SessionService}
 import views.html.emailpreferences._
 
@@ -29,18 +28,23 @@ import scala.concurrent.{ExecutionContext, Future}
 
 class EmailPreferences @Inject()(val emailPreferencesService: EmailPreferencesService,
                                  val sessionService: SessionService,
-                                 val messagesApi: MessagesApi,
+                                 mcc: MessagesControllerComponents,
                                  val errorHandler: ErrorHandler,
-                                 val cookieSigner : CookieSigner)
-                                (implicit val ec: ExecutionContext, val appConfig: ApplicationConfig) extends LoggedInController {
+                                 val cookieSigner : CookieSigner,
+                                 emailPreferencesFlowStartView: EmailPreferencesFlowStartView,
+                                 taxRegimeSelectionView: TaxRegimeSelectionView,
+                                 serviceSelectionView: ServiceSelectionView,
+                                 topicSelectionView: TopicSelectionView,
+                                 emailPreferencesSummaryView: EmailPreferencesSummaryView)
+                                (implicit val ec: ExecutionContext, val appConfig: ApplicationConfig) extends LoggedInController(mcc) {
 
-  def emailPreferencesStartPage: Action[AnyContent] = loggedInAction { implicit request =>
-    Future.successful(Ok(emailPreferences()))
+  def emailPreferencesFlowStartPage: Action[AnyContent] = loggedInAction { implicit request =>
+    Future.successful(Ok(emailPreferencesFlowStartView()))
   }
 
   def taxRegimeSelectionPage: Action[AnyContent] = loggedInAction { implicit request =>
     emailPreferencesService.currentUserEmailPreferences(request.developerSession.email).map { userEmailPreferences =>
-      Ok(taxRegimeSelection(userEmailPreferences.availableTaxRegimes, userEmailPreferences.selectedTaxRegimes))
+      Ok(taxRegimeSelectionView(userEmailPreferences.availableTaxRegimes, userEmailPreferences.selectedTaxRegimes))
     }
   }
 
@@ -58,16 +62,16 @@ class EmailPreferences @Inject()(val emailPreferencesService: EmailPreferencesSe
 
   def serviceSelectionPage: Action[AnyContent] = loggedInAction { implicit request =>
     emailPreferencesService.currentUserEmailPreferences(request.developerSession.email).map { userEmailPreferences =>
-      Ok(serviceSelection(userEmailPreferences))
+      Ok(serviceSelectionView(userEmailPreferences))
     }
   }
 
   def topicSelectionPage: Action[AnyContent] = loggedInAction { implicit request =>
-    Future.successful(Ok(topicSelection()))
+    Future.successful(Ok(topicSelectionView()))
   }
 
-  def emailPreferencesCompletePage: Action[AnyContent] = loggedInAction { implicit request =>
-    Future.successful(Ok(confirmation()))
+  def emailPreferencesSummaryPage: Action[AnyContent] = loggedInAction { implicit request =>
+    Future.successful(Ok(emailPreferencesSummaryView()))
   }
 
 }

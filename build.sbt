@@ -43,7 +43,7 @@ lazy val compile = Seq(
   "org.typelevel" %% "cats-core" % "2.0.0",
   "com.typesafe.play" %% "play-json" % "2.7.4",
   "com.typesafe.play" %% "play-json-joda" % "2.7.4",
-  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.29.0-play-25"
+  "uk.gov.hmrc" %% "simple-reactivemongo" % "7.25.0-play-26"
 )
 
 lazy val test = Seq(
@@ -67,7 +67,7 @@ lazy val test = Seq(
   // "batik" % "batik-script" % "1.6-1" % testScope exclude("batik", "batik-bridge"),
   // "com.github.mkolisnyk" % "cucumber-runner" % "1.3.5" % testScope exclude("batik", "batik-script"),
   "com.assertthat" % "selenium-shutterbug" % "0.2" % testScope,
-  "uk.gov.hmrc" %% "reactivemongo-test" % "4.20.0-play-25" % testScope
+  "uk.gov.hmrc" %% "reactivemongo-test" % "4.21.0-play-26" % testScope
 )
 
 lazy val overrideDependencies = Seq(

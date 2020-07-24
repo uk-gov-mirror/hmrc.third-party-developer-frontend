@@ -16,7 +16,7 @@
 
 package config
 
-import javax.inject.{Inject, Provider, Singleton}
+import javax.inject.{Inject, Singleton}
 import org.joda.time._
 import play.api.{ConfigLoader, Configuration}
 import service.MfaMandateService
@@ -81,16 +81,6 @@ class ApplicationConfig @Inject()(config: Configuration, runMode: RunMode) exten
   val apiSubscriptionFieldsSandboxApiKey = getConfString("api-subscription-fields-sandbox.api-key", "")
 
   val apiPlatformMicroserviceUrl = baseUrl("api-platform-microservice")
-
-  private def getConfig(key: String) =
-    runModeConfiguration.getString(key).getOrElse {
-      sys.error(s"[$key] is not configured!")
-    }
-
-  private def getConfig[T](key: String, block: String => Option[T]) =
-    block(key).getOrElse {
-      sys.error(s"[$key] is not configured!")
-    }
 
   private def buildUrl(key: String) = {
     (getConfigDefaulted(s"$env.$key.protocol", ""), getConfigDefaulted(s"$env.$key.host", "")) match {

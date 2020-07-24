@@ -20,6 +20,8 @@
 
 @import model.APICategory
 
+@this(devMain: DevMain)
+
 @(availableTaxRegimes: Set[APICategory], selectedTaxRegimes: Set[APICategory])(implicit messages: Messages, loggedIn: DeveloperSession, request: play.api.mvc.Request[Any], appConfig: ApplicationConfig)
 
 @devMain(

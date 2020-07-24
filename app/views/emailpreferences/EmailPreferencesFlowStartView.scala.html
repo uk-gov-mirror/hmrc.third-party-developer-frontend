@@ -18,20 +18,28 @@
 @import include._
 @import domain.{BackButtonWithJavaScript, DeveloperSession}
 
-@import model.UserEmailPreferences
+@this(devMain: DevMain)
 
-@(userEmailPreferences: UserEmailPreferences)(implicit messages: Messages, loggedIn: DeveloperSession, request: play.api.mvc.Request[Any], appConfig: ApplicationConfig)
+@()(implicit messages: Messages, loggedIn: DeveloperSession, request: play.api.mvc.Request[Any], appConfig: ApplicationConfig)
 
 @devMain(
-    title = "Services",
+    title = "Email preferences",
     userFullName = loggedIn.loggedInName,
     back = BackButtonWithJavaScript,
     developerSession = Some(loggedIn)
 ) {
 
-    <h1 class="heading-large">What are you interested in?</h1>
+    <h1 class="heading-large">Email preferences</h1>
 
-    <p>Select all that apply.</p>
+    <p>Tell us which APIs you are interested in and choose the types of emails you want to receive from us.</p>
 
-    <a href="@routes.EmailPreferences.topicSelectionPage()" class="button">Continue</a>
+    <p>If you have a Developer Hub account we will email you about:</p>
+
+    <ul class="list list-bullet">
+        <li>important notices and service updates</li>
+        <li>changes to your application</li>
+        <li>making your application accessible</li>
+    </ul>
+
+    <a href="@routes.EmailPreferences.taxRegimeSelectionPage()" class="button">Continue</a>
 }
