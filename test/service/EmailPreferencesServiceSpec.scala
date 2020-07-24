@@ -24,7 +24,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.Mockito.verifyZeroInteractions
 import org.scalatest.Matchers
 import org.scalatest.concurrent.ScalaFutures
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import repository.EmailPreferenceSelectionsRepository
 import uk.gov.hmrc.play.test.UnitSpec
 
