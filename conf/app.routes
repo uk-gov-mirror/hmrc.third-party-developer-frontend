@@ -33,6 +33,8 @@ GET         /profile                                                            
 GET         /profile/change                                                                 controllers.Profile.changeProfile
 POST        /profile                                                                        controllers.Profile.updateProfile
 
+GET         /profile/email-preferences                                                      controllers.EmailPreferences.emailPreferencesSummaryPage
+
 GET         /profile/protect-account                                                        controllers.ProtectAccount.getProtectAccount
 GET         /profile/protect-account/setup                                                  controllers.ProtectAccount.getQrCode
 GET         /profile/protect-account/access-code                                            controllers.ProtectAccount.getAccessCodePage
