@@ -58,11 +58,30 @@
         }
 
         @if(userHasEmailPreferences) {
-
+          <div>  
+            <table>
+                <tbody>
+                    <tr>
+                        <th strong class="col-30 bold"  style="font-size: larger;">Category</th>
+                        <th strong class="col-30 bold"  style="font-size: larger;">APIs</th>
+                    </tr>
             @for(taxRegimeInterest <- loggedIn.developer.emailPreferences.interests.sortBy(_.regime).zipWithIndex) {
-                <div>
+                <tr>
+                    <td id="regime-col-@taxRegimeInterest._2" style="border-bottom: 0px; font-weight: bold; vertical-align: top;">@viewData.taxRegimeDisplayName(taxRegimeInterest._1.regime)</td>
+                    <td id="apis-col-@taxRegimeInterest._2"  style="border-bottom: 0px;">
+                        @if(taxRegimeInterest._1.services.isEmpty) {
+                            All @viewData.taxRegimeDisplayName(taxRegimeInterest._1.regime) APIs
+                        } else {
+                            @for(selectedAPI <- taxRegimeInterest._1.services.toList.sorted) {
+                                @viewData.apiDisplayName(selectedAPI)
+                                <br />
+                            }
+                        }
+                    </td>
+                </tr>
 
-                    <p> <h3 id="category-heading-@taxRegimeInterest._1.regime">@viewData.taxRegimeDisplayName(taxRegimeInterest._1.regime)</h3>
+                 <!-- <p> 
+                     <h3 id="category-heading-@taxRegimeInterest._1.regime">@viewData.taxRegimeDisplayName(taxRegimeInterest._1.regime)</h3>
 
                     @if(taxRegimeInterest._1.services.isEmpty) {
                         <span id="all-api-@taxRegimeInterest._1.regime">
@@ -73,14 +92,19 @@
                             <br />
                         }
                     }
-                </p>
+                </p> -->
 
 
                 }
-
-            <a id="change-apis-link" href="@routes.EmailPreferences.flowSelectCategoriesPage">
-                Edit your preferences or get emails about other APIs</a>
+                </tbody>
+            </table>
         </div>
+            <div>
+                <br />
+                <a id="change-apis-link" href="@routes.EmailPreferences.flowSelectCategoriesPage">
+                    Edit your preferences or get emails about other APIs</a>
+
+            </div>
 
             <hr />
             <div>
