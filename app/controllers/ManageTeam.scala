@@ -96,9 +96,10 @@ class ManageTeam @Inject() (
         )
       }
 
+      // TODO: Check whether UserId needs to be other than None below
       def handleValidForm(form: AddTeamMemberForm) = {
         applicationService
-          .addTeamMember(request.application, request.user.email, Collaborator(form.email, Role.from(form.role).getOrElse(Role.DEVELOPER)))
+          .addTeamMember(request.application, request.user.email, Collaborator(form.email, Role.from(form.role).getOrElse(Role.DEVELOPER), None))
           .map(_ => Redirect(successRedirect)) recover {
           case _: ApplicationNotFound     => NotFound(errorHandler.notFoundTemplate)
           case _: TeamMemberAlreadyExists => createBadRequestResult(AddTeamMemberForm.form.fill(form).withError("email", "team.member.error.emailAddress.already.exists.field"))

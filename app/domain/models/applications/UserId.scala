@@ -16,10 +16,13 @@
 
 package domain.models.applications
 
-case class Collaborator(emailAddress: String, role: Role, userId: Option[UserId])
+import java.util.UUID
 
-object Collaborator {
+case class UserId(value: String) extends AnyVal
+
+object UserId {
   import play.api.libs.json.Json
+  implicit val applicationIdFormat = Json.valueFormat[UserId]
 
-  implicit val format = Json.format[Collaborator]
+  def random: Option[UserId] = Some(UserId(UUID.randomUUID().toString))
 }

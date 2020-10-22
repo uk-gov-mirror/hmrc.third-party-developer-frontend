@@ -35,11 +35,12 @@ case class CreateApplicationRequest(
 object CreateApplicationRequest extends ApplicationRequest {
   implicit val format = Json.format[CreateApplicationRequest]
 
+  // TODO: Check whether UserId needs to be other than None below
   def fromAddApplicationJourney(user: DeveloperSession, form: AddApplicationNameForm, environment: Environment) = CreateApplicationRequest(
     form.applicationName.trim,
     environment,
     None,
-    Seq(Collaborator(user.email, Role.ADMINISTRATOR))
+    Seq(Collaborator(user.email, Role.ADMINISTRATOR, None))
   )
 }
 
